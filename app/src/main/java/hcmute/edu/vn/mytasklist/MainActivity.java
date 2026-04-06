@@ -897,52 +897,44 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        if (item.getItemId() == R.id.action_test_services) {
-            showTestServicesDialog();
+        if (item.getItemId() == R.id.action_load_contacts) {
+            handleLoadContacts();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void showTestServicesDialog() {
-        String[] options = {
-                "Test Pomodoro Service",
-                "Test Background SyncWorker",
-                "Test Daily Summary Worker",
-                "Test Auto Cleanup Worker"
-        };
+    private void handleLoadContacts() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 203);
+        } else {
+            showContactsDialog();
+        }
+    }
 
-        new AlertDialog.Builder(this)
-                .setTitle("Test Background Services")
-                .setItems(options, (dialog, which) -> {
-                    switch (which) {
-                        case 0:
-                            Intent intent = new Intent(this, hcmute.edu.vn.mytasklist.service.pomodoro.PomodoroForegroundService.class);
-                            intent.setAction(hcmute.edu.vn.mytasklist.service.pomodoro.PomodoroForegroundService.ACTION_START);
-                            intent.putExtra(hcmute.edu.vn.mytasklist.service.pomodoro.PomodoroForegroundService.EXTRA_TASK_ID, 999L);
-                            intent.putExtra(hcmute.edu.vn.mytasklist.service.pomodoro.PomodoroForegroundService.EXTRA_TASK_TITLE, "Test Focus Session");
-                            intent.putExtra(hcmute.edu.vn.mytasklist.service.pomodoro.PomodoroForegroundService.EXTRA_DURATION, 1000L * 60);
-                            startService(intent);
-                            Toast.makeText(this, "🍅 Pomodoro started", Toast.LENGTH_SHORT).show();
-                            break;
-                        case 1:
-                            androidx.work.WorkManager.getInstance(this)
-                                    .enqueue(new androidx.work.OneTimeWorkRequest.Builder(hcmute.edu.vn.mytasklist.service.sync.SyncWorker.class).build());
-                            Toast.makeText(this, "🔄 Sync started", Toast.LENGTH_SHORT).show();
-                            break;
-                        case 2:
-                            androidx.work.WorkManager.getInstance(this)
-                                    .enqueue(new androidx.work.OneTimeWorkRequest.Builder(hcmute.edu.vn.mytasklist.service.summary.DailySummaryWorker.class).build());
-                            Toast.makeText(this, "📊 Daily Summary started", Toast.LENGTH_SHORT).show();
-                            break;
-                        case 3:
-                            androidx.work.WorkManager.getInstance(this)
-                                    .enqueue(new androidx.work.OneTimeWorkRequest.Builder(hcmute.edu.vn.mytasklist.service.cleanup.AutoCleanupWorker.class).build());
-                            Toast.makeText(this, "🧹 Cleanup started", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                })
-                .show();
+    private void showContactsDialog() {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            List<hcmute.edu.vn.mytasklist.service.contact.ContactContentHelper.ContactItem> contacts = 
+                    hcmute.edu.vn.mytasklist.service.contact.ContactContentHelper.scanContacts(MainActivity.this);
+            
+            runOnUiThread(() -> {
+                if (contacts.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Không tìm thấy danh bạ nào.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                
+                CharSequence[] contactNames = new CharSequence[contacts.size()];
+                for (int i = 0; i < contacts.size(); i++) {
+                    contactNames[i] = contacts.get(i).getName() + " - " + contacts.get(i).getPhoneNumber();
+                }
+
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Danh bạ điện thoại (" + contacts.size() + ")")
+                        .setItems(contactNames, null)
+                        .setPositiveButton("Đóng", null)
+                        .show();
+            });
+        });
     }
 
     private List<TaskEntity> getFilteredTasks() {
@@ -1033,8 +1025,10 @@ public class MainActivity extends AppCompatActivity {
             try { breakMins = Integer.parseInt(etBreak.getText().toString()); } catch (Exception ignored) {}
 
             ArrayList<String> selectedMusicURIs = new ArrayList<>();
+            ArrayList<String> selectedMusicTitles = new ArrayList<>();
             if (currentMusicAdapter != null) {
                 selectedMusicURIs = currentMusicAdapter.getSelectedUris();
+                selectedMusicTitles = currentMusicAdapter.getSelectedTitles();
             }
 
             Intent intent = new Intent(this, hcmute.edu.vn.mytasklist.service.pomodoro.PomodoroForegroundService.class);
@@ -1044,10 +1038,14 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(hcmute.edu.vn.mytasklist.service.pomodoro.PomodoroForegroundService.EXTRA_DURATION, focusMins * 60L * 1000L);
             intent.putExtra("EXTRA_BREAK_DURATION", breakMins * 60L * 1000L);
             intent.putStringArrayListExtra("EXTRA_MUSIC_URIS", selectedMusicURIs);
+            intent.putStringArrayListExtra("EXTRA_MUSIC_TITLES", selectedMusicTitles);
             
             startService(intent);
             Toast.makeText(this, "🍅 Bắt đầu Pomodoro: " + task.getTitle(), Toast.LENGTH_SHORT).show();
             currentPomodoroDialog.dismiss();
+            
+            Intent uiIntent = new Intent(this, PomodoroActivity.class);
+            startActivity(uiIntent);
         });
 
         currentPomodoroDialog.show();
@@ -1082,6 +1080,19 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Cần cấp quyền để đọc file nhạc!", Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == 203) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showContactsDialog();
+            } else {
+                Toast.makeText(this, "Cần cấp quyền để đọc danh bạ!", Toast.LENGTH_SHORT).show();
+            }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        android.content.SharedPreferences prefs = getSharedPreferences("app_prefs", android.content.Context.MODE_PRIVATE);
+        prefs.edit().putLong("last_active_time", System.currentTimeMillis()).apply();
     }
 }

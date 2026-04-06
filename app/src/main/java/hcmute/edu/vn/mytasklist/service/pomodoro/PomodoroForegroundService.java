@@ -57,6 +57,7 @@ public class PomodoroForegroundService extends Service {
     // Music Player Variables
     private MediaPlayer mediaPlayer;
     private ArrayList<String> playlistUris = new ArrayList<>();
+    private ArrayList<String> playlistTitles = new ArrayList<>();
     private int currentTrackIndex = 0;
     private boolean isMusicActive = false;
 
@@ -94,8 +95,15 @@ public class PomodoroForegroundService extends Service {
         breakDurationMs = intent.getLongExtra("EXTRA_BREAK_DURATION", 5 * 60 * 1000);
         
         ArrayList<String> uris = intent.getStringArrayListExtra("EXTRA_MUSIC_URIS");
+        ArrayList<String> titles = intent.getStringArrayListExtra("EXTRA_MUSIC_TITLES");
+        
         if (uris != null && !uris.isEmpty()) {
             playlistUris = uris;
+            if (titles != null) {
+                playlistTitles = titles;
+            } else {
+                for (String uri : uris) playlistTitles.add("Bản nhạc");
+            }
             startMusic();
         }
 
@@ -140,7 +148,9 @@ public class PomodoroForegroundService extends Service {
         }
         
         showSummaryNotification();
-        
+        Intent stopIntent = new Intent("ACTION_POMODORO_FINISHED");
+        stopIntent.setPackage(getPackageName());
+        sendBroadcast(stopIntent);
         stopForeground(true);
         stopSelf();
     }
@@ -153,6 +163,7 @@ public class PomodoroForegroundService extends Service {
                 timeLeftMs = millisUntilFinished;
                 String status = (currentMode == SessionMode.FOCUS) ? "Focusing..." : "Resting...";
                 updateNotification(status, true);
+                broadcastTick();
             }
 
             @Override
@@ -240,7 +251,8 @@ public class PomodoroForegroundService extends Service {
     }
 
     private Notification getNotification(String statusText, boolean includePauseAction) {
-        Intent mainIntent = new Intent(this, MainActivity.class);
+        Intent mainIntent = new Intent(this, hcmute.edu.vn.mytasklist.PomodoroActivity.class);
+        mainIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         long minutes = timeLeftMs / 60000;
@@ -339,5 +351,30 @@ public class PomodoroForegroundService extends Service {
         super.onDestroy();
         stopMusic();
         if (timer != null) timer.cancel();
+    }
+
+    private void broadcastTick() {
+        Intent intent = new Intent("ACTION_POMODORO_TICK");
+        intent.setPackage(getPackageName());
+        intent.putExtra("TIME_LEFT", timeLeftMs);
+        intent.putExtra("IS_RUNNING", isRunning);
+        intent.putExtra("MODE", currentMode.name());
+        intent.putExtra("IS_MUSIC_ACTIVE", isMusicActive && mediaPlayer != null && mediaPlayer.isPlaying());
+        
+        if (isMusicActive && mediaPlayer != null && mediaPlayer.isPlaying()) {
+            if (!playlistUris.isEmpty() && currentTrackIndex < playlistUris.size()) {
+                intent.putExtra("TRACK_URI", playlistUris.get(currentTrackIndex));
+            }
+            if (!playlistTitles.isEmpty() && currentTrackIndex < playlistTitles.size()) {
+                intent.putExtra("TRACK_TITLE", playlistTitles.get(currentTrackIndex));
+            }
+            try {
+                intent.putExtra("TRACK_PROGRESS", (long) mediaPlayer.getCurrentPosition());
+                intent.putExtra("TRACK_DURATION", (long) mediaPlayer.getDuration());
+            } catch (Exception e) {
+                // Ignore illegal state
+            }
+        }
+        sendBroadcast(intent);
     }
 }
