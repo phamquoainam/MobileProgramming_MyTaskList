@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/bg_white"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="12dp">
+
+    <!-- Header row: title + delete button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Edit Task"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-medium" />
+
+        <!-- Delete button (trash icon as text) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDeleteTask"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🗑 Delete"
+            android:textColor="@color/priority_high"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <!-- Task title -->
+    <EditText
+        android:id="@+id/etEditTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Task title"
+        android:textColorHint="@color/text_hint"
+        android:textColor="@color/text_primary"
+        android:textSize="15sp"
+        android:background="@android:color/transparent"
+        android:maxLines="3"
+        android:minLines="2"
+        android:paddingBottom="8dp" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        android:layout_marginBottom="14dp" />
+
+    <!-- Date & Time Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="14dp"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:id="@+id/layoutEditDate"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📅"
+                android:textSize="18sp"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/tvEditDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Date"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutEditTime"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🕒"
+                android:textSize="18sp"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/tvEditTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Time"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Category spinner -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp"
+        android:layout_marginBottom="6dp" />
+
+    <Spinner
+        android:id="@+id/spinnerEditCategory"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="14dp"
+        android:background="@drawable/rounded_card" />
+
+    <!-- Recurrence label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Repeat"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp"
+        android:layout_marginBottom="6dp" />
+
+    <!-- Recurrence Spinner -->
+    <Spinner
+        android:id="@+id/spinnerEditRecurrence"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_card" />
+
+    <!-- Custom Recurrence Layout -->
+    <LinearLayout
+        android:id="@+id/layoutEditCustomRecurrence"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        android:layout_marginBottom="14dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Every "
+            android:textSize="14sp"
+            android:textColor="@color/text_primary" />
+
+        <EditText
+            android:id="@+id/etEditCustomDays"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:text="1"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textSize="14sp"
+            android:textColor="@color/text_primary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" days until "
+            android:textSize="14sp"
+            android:textColor="@color/text_primary" />
+
+        <TextView
+            android:id="@+id/tvEditCustomEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forever"
+            android:textColor="@color/ticktick_red"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="6dp" />
+    </LinearLayout>
+
+    <!-- Priority label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Priority"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Priority chips -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEditPriHigh"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:text="High"
+            android:textSize="12sp"
+            app:strokeColor="@color/priority_high"
+            app:strokeWidth="1.5dp"
+            android:textColor="@color/priority_high" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEditPriMed"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:text="Med"
+            android:textSize="12sp"
+            app:strokeColor="@color/priority_medium"
+            app:strokeWidth="1.5dp"
+            android:textColor="@color/priority_medium" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEditPriLow"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:text="Low"
+            android:textSize="12sp"
+            app:strokeColor="@color/priority_low"
+            app:strokeWidth="1.5dp"
+            android:textColor="@color/priority_low" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEditPriNone"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:text="None"
+            android:textSize="12sp"
+            app:strokeColor="@color/priority_none"
+            app:strokeWidth="1.5dp"
+            android:textColor="@color/text_secondary" />
+    </LinearLayout>
+
+    <!-- Save / Cancel -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEditCancel"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="@color/text_secondary"
+            android:layout_marginEnd="4dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEditSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            app:backgroundTint="@color/ticktick_red"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</LinearLayout>

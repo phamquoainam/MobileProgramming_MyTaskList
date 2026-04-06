@@ -1,0 +1,34 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.MyTaskList" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/ticktick_red</item>
+        <item name="colorPrimaryDark">@color/ticktick_red_dark</item>
+        <item name="colorAccent">@color/fab_bg</item>
+        <item name="android:windowBackground">@color/bg_main</item>
+        <item name="android:statusBarColor">@color/ticktick_red</item>
+        <item name="android:navigationBarColor">@color/bg_white</item>
+    </style>
+
+    <style name="Theme.MyTaskList" parent="Base.Theme.MyTaskList" />
+
+    <!-- Toolbar style -->
+    <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/bg_toolbar</item>
+        <item name="titleTextColor">@color/text_primary</item>
+        <item name="subtitleTextColor">@color/text_secondary</item>
+    </style>
+
+    <!-- Section header text style -->
+    <style name="SectionHeaderText" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textColor">@color/text_section_header</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- Task title text style -->
+    <style name="TaskTitleText" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+</resources>

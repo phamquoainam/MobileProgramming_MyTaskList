@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_white"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp"
+    android:minHeight="56dp">
+
+    <!-- Circle Checkbox -->
+    <ImageView
+        android:id="@+id/ivCheckbox"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:background="@drawable/circle_checkbox"
+        android:padding="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Priority color bar -->
+    <View
+        android:id="@+id/viewPriority"
+        android:layout_width="3dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:background="@color/priority_none"
+        app:layout_constraintStart_toEndOf="@id/ivCheckbox"
+        app:layout_constraintTop_toTopOf="@id/tvTitle"
+        app:layout_constraintBottom_toBottomOf="@id/tvTitle" />
+
+    <!-- Task title -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@color/text_primary"
+        android:textSize="15sp"
+        android:fontFamily="sans-serif"
+        android:maxLines="2"
+        android:ellipsize="end"
+        app:layout_constraintStart_toEndOf="@id/viewPriority"
+        app:layout_constraintEnd_toStartOf="@id/tvDueDate"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvSubtasks" />
+
+    <!-- Subtask count (optional) -->
+    <TextView
+        android:id="@+id/tvSubtasks"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/viewPriority"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintEnd_toStartOf="@id/tvDueDate"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Pomodoro Timer Icon -->
+    <ImageView
+        android:id="@+id/ivPomodoro"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/ic_timer"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:tint="@color/ticktick_red"
+        app:layout_constraintEnd_toStartOf="@id/tvDueDate"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Due date -->
+    <TextView
+        android:id="@+id/tvDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

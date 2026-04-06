@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">MyTaskList</string>
+
+    <!-- Navigation -->
+    <string name="nav_today">Today</string>
+    <string name="nav_next7">Next 7 Days</string>
+    <string name="nav_inbox">Inbox</string>
+    <string name="nav_work_tasks">Work Tasks</string>
+    <string name="nav_study_goals">Study Goals</string>
+    <string name="nav_travel_plans">Travel Plans</string>
+    <string name="nav_daily_todo">Daily To-Do</string>
+    <string name="nav_life_events">Life Events</string>
+    <string name="nav_this_week">This Week</string>
+    <string name="nav_unscheduled">Unscheduled</string>
+    <string name="nav_completed">Completed</string>
+
+    <!-- Sections -->
+    <string name="section_today">Today</string>
+    <string name="section_tomorrow">Tomorrow</string>
+    <string name="section_next7">Next 7 Days</string>
+
+    <!-- Add task dialog -->
+    <string name="add_task_hint">Add task title…</string>
+    <string name="add_task_confirm">Save</string>
+    <string name="add_task_cancel">Cancel</string>
+    <string name="new_task">New Task</string>
+
+    <!-- Empty state -->
+    <string name="empty_tasks">No tasks here.\nTap + to add a new task.</string>
+
+    <!-- Misc -->
+    <string name="open_drawer">Open navigation drawer</string>
+    <string name="close_drawer">Close navigation drawer</string>
+    <string name="my_lists">MY LISTS</string>
+    <string name="smart_lists">SMART LISTS</string>
+</resources>

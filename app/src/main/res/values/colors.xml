@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- TickTick primary colors -->
+    <color name="ticktick_red">#E53935</color>
+    <color name="ticktick_red_dark">#C62828</color>
+    <color name="ticktick_red_light">#FFCDD2</color>
+
+    <!-- Backgrounds -->
+    <color name="bg_main">#F5F5F5</color>
+    <color name="bg_white">#FFFFFF</color>
+    <color name="bg_sidebar">#FFFFFF</color>
+    <color name="bg_toolbar">#FFFFFF</color>
+
+    <!-- Text colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_hint">#BDBDBD</color>
+    <color name="text_completed">#9E9E9E</color>
+    <color name="text_section_header">#616161</color>
+    <color name="text_overdue">#E53935</color>
+    <color name="text_today_date">#1976D2</color>
+
+    <!-- Section header background -->
+    <color name="section_header_bg">#F5F5F5</color>
+
+    <!-- Divider -->
+    <color name="divider">#EEEEEE</color>
+
+    <!-- FAB -->
+    <color name="fab_bg">#4A90D9</color>
+
+    <!-- Priority colors -->
+    <color name="priority_high">#E53935</color>
+    <color name="priority_medium">#FB8C00</color>
+    <color name="priority_low">#43A047</color>
+    <color name="priority_none">#BDBDBD</color>
+
+    <!-- Checkbox -->
+    <color name="checkbox_border">#BDBDBD</color>
+    <color name="checkbox_checked">#4A90D9</color>
+
+    <!-- Sidebar item selected -->
+    <color name="nav_selected_bg">#FFF3F3</color>
+    <color name="nav_selected_text">#E53935</color>
+    <color name="nav_icon_color">#757575</color>
+    <color name="nav_icon_selected">#E53935</color>
+
+    <!-- Category colors -->
+    <color name="cat_work">#5C6BC0</color>
+    <color name="cat_study">#26A69A</color>
+    <color name="cat_travel">#FFA726</color>
+    <color name="cat_daily">#EC407A</color>
+    <color name="cat_life">#8D6E63</color>
+</resources>
