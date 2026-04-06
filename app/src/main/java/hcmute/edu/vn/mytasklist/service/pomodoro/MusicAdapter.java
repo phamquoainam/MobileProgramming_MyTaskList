@@ -70,6 +70,18 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
         return selected;
     }
 
+    public ArrayList<String> getSelectedTitles() {
+        ArrayList<String> selected = new ArrayList<>();
+        if (musicList != null) {
+            for (MusicItem item : musicList) {
+                if (item.isSelected()) {
+                    selected.add(item.getTitle());
+                }
+            }
+        }
+        return selected;
+    }
+
     static class MusicViewHolder extends RecyclerView.ViewHolder {
         CheckBox cbSelect;
         TextView tvTitle, tvArtist, tvDuration;

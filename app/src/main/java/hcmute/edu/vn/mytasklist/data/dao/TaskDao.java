@@ -52,4 +52,13 @@ public interface TaskDao {
 
     @Query("SELECT * FROM tasks WHERE due_date >= :startOfDay AND due_date < :endOfDay AND completed = 0")
     List<TaskEntity> getIncompleteTasksDueToday(long startOfDay, long endOfDay);
+
+    @Query("SELECT COUNT(*) FROM tasks WHERE due_date >= :from AND due_date <= :to AND completed = 1")
+    int getCompletedTaskCountByDateRange(long from, long to);
+
+    @Query("SELECT COUNT(*) FROM tasks WHERE due_date >= :from AND due_date <= :to AND completed = 0")
+    int getIncompleteTaskCountByDateRange(long from, long to);
+
+    @Query("SELECT COUNT(*) FROM tasks WHERE completed = 0")
+    int getPendingTaskCount();
 }
